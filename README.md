@@ -37,8 +37,6 @@ The mapping matches URLs using the following rules:
 * org/**/servlet/bla.jsp - matches org/springframework/servlet/bla.jsp but also org/springframework/testing/servlet/bla.jsp and org/servlet/bla.jsp
 * com/{filename:\\w+}.jsp will match com/test.jsp and assign the value test to the filename variable
 
-talk about network in chrome
-
 
 ## Java errors WhiteLabel
 
