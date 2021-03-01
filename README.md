@@ -1,5 +1,6 @@
 # Spring Security for dummies
 Code from this course https://www.youtube.com/watch?v=her_7pa0vrg
+the code inside is commented please read it, im talking to you especifically, you know who you are 
 
 # spring security
 
