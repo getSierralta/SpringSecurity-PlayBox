@@ -46,9 +46,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Permission based Authentication
                 //Only those who have the Write permissions can DELETE, POST and PUT
                 //But anybody with the role ADMIN or ADMIN_TRAINEE can do a get request
-                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.name())
-                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.name())
-                .antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.name())
+                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
+                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
+                .antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
                 .antMatchers(HttpMethod.GET,"/management/api/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ADMIN_TRAINEE.name())
                 .anyRequest()
                 .authenticated() // Any request most be authenticated

@@ -21,6 +21,7 @@ public class StudentManagementController {
 
     @GetMapping //get request
     public List<Student> getAllStudents(){
+        System.out.println("getAllStudents");
         return STUDENTS;
     }
 
@@ -28,6 +29,7 @@ public class StudentManagementController {
     //@RequestBody annotation is used to convert the body of the HTTP request and response with java class objects.
     // This annotation will use registered HTTP message converters in the process of converting/mapping HTTP request/response body with java objects.
     public void registerNewStudent(@RequestBody Student student){
+        System.out.println("postStudent");
         System.out.println(student);
     }
     @DeleteMapping(path = "{studentId}") //delete request
@@ -36,6 +38,7 @@ public class StudentManagementController {
     public void deleteStudent(@PathVariable("studentId") Integer studentId){
         //@PathVariable takes the variable we use in the request so you can use it freely like any variable
         //Example = management/api/v1/students/69 | studentId = 69
+        System.out.println("deleteStudent");
         System.out.println(studentId);
     }
 
@@ -49,6 +52,7 @@ public class StudentManagementController {
         // This annotation will use registered HTTP message converters in the process of converting/mapping HTTP request/response body with java objects.
 
         //print format
+        System.out.println("updateStudent");
         System.out.printf("%s %s%n", studentId, student);
     }
 }
