@@ -1,9 +1,8 @@
-# SpringSecurity-PlayBox
-Spring Security for dummies
+# Spring Security for dummies
 
 # spring security
 
-Dependencies 
+## Dependencies 
 Spring Security 
 Guava 
 
@@ -12,7 +11,7 @@ form default:
 user 
 generated security password
 
-Users: 
+### Users: 
 username most be unique 
 Passwords most be encoded
 they should have Roles 
@@ -22,7 +21,7 @@ higly recommended to use authorities
 basic auth with basic auth you need to specify the username and password inside of the request header as B64 good for external API
 basic auth cant logout because the user and password is sent in everysingle request 
 
-Ant matches 
+#### Ant matches 
 The mapping matches URLs using the following rules:
 
 ? matches one character
@@ -41,12 +40,12 @@ com/{filename:\\w+}.jsp will match com/test.jsp and assign the value test to the
 talk about network in chrome
 
 
-Java errors WhiteLabel
+## Java errors WhiteLabel
 
 whitelabel (type= not found, status=404) is always about the controllers, if this error occur is because you have nothing assignated to were you are trying to go and if you do you probably have a spelling error somewhere
 whitelabel (type=Unauthorized, status=401) you didnt login nor do you can access this page withput login in 
 
-Postman errors 
+## Postman errors 
 
 postman error 401 unautarazed nao fizeste login 
 if you are using basic auth you have to sent the user and password in each request 
@@ -58,7 +57,7 @@ postman error 403 Forbidden. Or spring is protecting your app from CSRF. In your
 /*CSRF- Cross-Site Request Forgery attack is an attack that forces the end user to make an unwanted calls to the web application servers where the end user is already authenticated.*/
 postman error 405 Method Not Allowed. check the url and the request type, you are probably using a type that doesnt match and url like DELETE without id 
 
-Java errors
+## Java errors
 
 error java db time zone 
 java.lang.IllegalArgumentException: there is no PasswordEncoder mapped for the id "null" Users required to have the password encoded, there's something wrong with your encoder or you didnt implement it 
