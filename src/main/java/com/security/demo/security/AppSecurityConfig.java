@@ -1,19 +1,16 @@
 package com.security.demo.security;
 
+import com.security.demo.auth.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.concurrent.TimeUnit;
@@ -30,11 +27,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     //ctrl o on top of the extended class to see all the methods it has and also override then
 
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationUserService applicationUserService;
 
     @Autowired
-    public AppSecurityConfig(PasswordEncoder passwordEncoder) {
+    public AppSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
         //The passwordEncoder requires a constructor
         this.passwordEncoder = passwordEncoder;
+        this.applicationUserService = applicationUserService;
     }
 
 
@@ -92,6 +91,22 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    //AuthenticationManagerBuilder builds AuthenticationManager using which in-memory, JDBC and LDAP authentication is performed. To perform in-memory authentication AuthenticationManagerBuilder provides inMemoryAuthentication() method which returns InMemoryUserDetailsManagerConfigurer using which we can add user with the method withUser.
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(daoAuthenticationProvider()); //Were we set which dao provider we use
+    }
+
+    @Bean
+    //DaoAuthenticationProvider = An AuthenticationProvider implementation that retrieves user details from an UserDetailsService.
+    public DaoAuthenticationProvider daoAuthenticationProvider(){
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setPasswordEncoder(passwordEncoder); // this allows passwords to be decoded
+        provider.setUserDetailsService(applicationUserService); //Were we set which userService we will use implements UserDetailsService
+        return provider;
+    }
+
+    /*
+    @Override
     @Bean //Spring @Bean annotation indicates that a method produces a bean to be managed by the Spring container
     protected UserDetailsService userDetailsService() {
         //UserDetailsService is an interface which is used to retrieve the user’s authentication and authorization information
@@ -121,5 +136,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         //InMemoryUserDetailsManager Non-persistent implementation of UserDetailsManager which is backed by an in-memory map.
         //Mainly intended for testing and demonstration purposes, where a full blown persistent system isn't required.
         return new InMemoryUserDetailsManager(student, admin, adminTrainee);
-    }
+    }*/
+
+
 }

@@ -1,14 +1,16 @@
 package com.security.demo.auth;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
-public class User implements UserDetails {
+public class ApplicationUser implements UserDetails {
 
-    private final List<? extends GrantedAuthority> grantedAuthorities;
+    private final Set<SimpleGrantedAuthority> grantedAuthorities;
     private final String password;
     private final String username;
     private final boolean isAccountNonExpired;
@@ -16,7 +18,7 @@ public class User implements UserDetails {
     private final boolean isCredentialsNonExpired;
     private final boolean isEnable;
 
-    public User(String password, String username, List<? extends GrantedAuthority> grantedAuthorities, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnable) {
+    public ApplicationUser(String username, String password, Set<SimpleGrantedAuthority> grantedAuthorities, boolean isAccountNonExpired, boolean isAccountNonLocked, boolean isCredentialsNonExpired, boolean isEnable) {
         this.grantedAuthorities = grantedAuthorities;
         this.password = password;
         this.username = username;
@@ -25,6 +27,9 @@ public class User implements UserDetails {
         this.isCredentialsNonExpired = isCredentialsNonExpired;
         this.isEnable = isEnable;
     }
+
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
