@@ -63,11 +63,15 @@ Authorization -> basic Auth -> put your credentials there
 * postman error 400 bad request, check the url, check the type of body you are sending, if you are sending a Json it most say json, check the body, check the spelling, check that what you are putting in your request matches with what you have in your controllers
 * postman error 403 Forbidden. this means you are trying to access a url but the user you have logged with doesnt have the permission to access it 
 * postman error 403 Forbidden. Or spring is protecting your app from CSRF. In your Application Security Configuration after http put .csrf().disable() 
-/*CSRF- Cross-Site Request Forgery attack is an attack that forces the end user to make an unwanted calls to the web application servers where the end user is already authenticated.*/
-#### When to use CSRF protection? 
-for any request that could be processed by a browser by normal users. If you are only creating a service that is used by non-browser clients, you will likely want to disable CSRF protection.
 * postman error 405 Method Not Allowed. check the url and the request type, you are probably using a type that doesnt match and url like DELETE without id 
 
+## CSRF 
+* https://wanago.io/2020/12/21/csrf-attacks-same-site-cookies/ links 
+* Cross-Site Request Forgery attack is an attack that forces the end user to make an unwanted calls to the web application servers where the end user is already authenticated.
+* When to use CSRF protection: for any request that could be processed by a browser by normal users. If you are only creating a service that is used by non-browser clients, you will likely want to disable CSRF protection.
+* Depending on the configuration of the cookies, the browser might attach them to the request. It would be a simple Cross-Site Request Forgery attack by forcing the user to perform an unwanted action.
+* How to activate the cookies no postman? -> Capture requests and cookies (the bottom looks like an antena) request -> chenge from proxy to interceptor (you need to install a plugin no browser)
+* When you do a Get request you can go next to the body and see the cookies, you need to grab the cookie token and before you do a request you go to headers and you put: X-XSRF-TOKEN and in value you put the token.
 
 
 ## Java errors
