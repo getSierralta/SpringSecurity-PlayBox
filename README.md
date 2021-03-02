@@ -75,6 +75,12 @@ The mapping matches URLs using the following rules:
 * org/**/servlet/bla.jsp - matches org/springframework/servlet/bla.jsp but also org/springframework/testing/servlet/bla.jsp and org/servlet/bla.jsp
 * com/{filename:\\w+}.jsp will match com/test.jsp and assign the value test to the filename variable
 
+## Java errors
+
+* error java db time zone - Whenever you have the link to your database you can put this link jdbc:mysql://localhost:3306/{nameOfTheSchema}?useTimezone=true&serverTimezone=UTC
+* java.lang.IllegalArgumentException: there is no PasswordEncoder mapped for the id "null" Users required to have the password encoded, there's something wrong with your encoder or you didnt implement it 
+* Error Encoded password does not look like Bcrypt // you need to inject the PasswordEncoder into your application security configuration
+* java.lang.IllegalStateException: UserDetailsService is required. HTTP Status 500 – Internal Server Error if you have the UserDetailService then clean your cookies, if it doesnt work then you have implemented it wrong.
 
 ## Java errors WhiteLabel
 
@@ -108,12 +114,30 @@ Authorization -> basic Auth -> put your credentials there
 * And when that doesnt work give up in life and enable the protection 
 * Ok dont give up yet .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) finally let me got those tokens baby
 
+## JWT JSON Web Tokens 
+* JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA.
+#### What is the JSON Web Token structure?
+In its compact form, JSON Web Tokens consist of three parts separated by dots (.), which are: Header, Payload, Signature. Therefore, a JWT typically looks like the following:
+* xxxxx.yyyyy.zzzzz
+* The header typically consists of two parts: the type of the token, which is JWT, and the signing algorithm being used, such as HMAC SHA256 or RSA.
+* {
+ "alg": "HS256",
+ "typ": "JWT"
+ }
+* payload, which contains the claims. Claims are statements about an entity (typically, the user) and additional data. There are three types of claims: registered, public, and private claims.
+* {
+  "sub": "1234567890",
+  "name": "John Doe",
+  "admin": true
+}
+* The signature is used to verify the message wasn't changed along the way, and, in the case of tokens signed with a private key, it can also verify that the sender of the JWT is who it says it is.
+* To create the signature part you have to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that.
+* For example if you want to use the HMAC SHA256 algorithm, the signature will be created in the following way:
 
-## Java errors
-
-* error java db time zone - Whenever you have the link to your database you can put this link jdbc:mysql://localhost:3306/{nameOfTheSchema}?useTimezone=true&serverTimezone=UTC
-* java.lang.IllegalArgumentException: there is no PasswordEncoder mapped for the id "null" Users required to have the password encoded, there's something wrong with your encoder or you didnt implement it 
-* Error Encoded password does not look like Bcrypt // you need to inject the PasswordEncoder into your application security configuration
+HMACSHA256(
+  base64UrlEncode(header) + "." +
+  base64UrlEncode(payload),
+  secret)
 
 ## Glossary 
 
