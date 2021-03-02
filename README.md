@@ -6,7 +6,7 @@ the code inside is commented please read it, im talking to you especifically, yo
 ## Dependencies 
 * Spring Security 
 * Guava 
-
+* Thymeleaf 
 
 
 ## Users: 
@@ -15,6 +15,12 @@ the code inside is commented please read it, im talking to you especifically, yo
 * they should have Roles 
 * with the roles you can define the endpoints of your users using authorities
 * higly recommended to use authorities
+
+#### Session id
+* As session IDs are often used to identify a user that has logged into a website.
+* They are stored in the cookies.
+* A session identifier, session ID or session token is a piece of data that is used in network communications (often over HTTP) to identify a session, a series of related message exchanges. Session identifiers become necessary in cases where the communications infrastructure uses a stateless protocol such as HTTP. For example, a buyer who visits a seller's website wants to collect a number of articles in a virtual shopping cart and then finalize the shopping by going to the site's checkout page. This typically involves an ongoing communication where several webpages are requested by the client and sent back to them by the server. In such a situation, it is vital to keep track of the current state of the shopper's cart, and a session ID is one way to achieve that goal.
+
 
 ## Auth:
 
@@ -130,6 +136,8 @@ Authorization -> basic Auth -> put your credentials there
 * @Controller = @Controller is typically used in combination with a @RequestMapping annotation used on request handling methods.
 * csrf = Cross-site request forgery 
 
+* DAO = Data Access Object, It’s a design pattern in which a data access object (DAO) is an object that provides an abstract interface to some type of database or other persistence mechanisms. By mapping application calls to the persistence layer, DAOs provide some specific data operations without exposing details of the database.
+* DaoAuthenticationProvider = An AuthenticationProvider implementation that retrieves user details from an UserDetailsService.
 * @DeleteMapping = shortcut for @RequestMapping(method =RequestMethod.DELETE).
 
 * @EnableGlobalMethodSecurity(prePostEnabled = true) = EnableGlobalMethodSecurity provides AOP security on methods. Some of the annotations that it provides are PreAuthorize, PostAuthorize. It also has support for JSR-250. Without enabling the annotations mean nothing
@@ -165,7 +173,9 @@ Authorization -> basic Auth -> put your credentials there
 * @PostAuthorize = authorizes on the basis of role or the argument which is passed to the method.
 * @PostMapping = shortcut for @RequestMapping(method = RequestMethod.POST)
 * @PreAuthorize  = @PreAuthorize can check for authorization before entering into method. hasRole('Role_') hasAnyRole('Role_') hasAuthority('permission') hasAnyAuthority('permission').
-* @PutMapping = shortcut for @RequestMapping(method = RequestMethod.PUT)
+* @PutMapping = shortcut for @RequestMapping(method = RequestMethod.PUT).
+
+* @Qualifier = There may be a situation when you create more than one bean of the same type and want to wire only one of them with a property. In such cases, you can use the @Qualifier annotation along with @Autowired to remove the confusion by specifying which exact bean will be wired.
 
 * @Repository = is used in classe with the mechanism for encapsulating storage, retrieval, and search behavior which emulates a collection of objects aka db
 * @RequestBody and @ResponseBody =  are used to convert the body of the HTTP request and response with java class objects. Both these annotations will use registered HTTP message converters in the process of converting/mapping HTTP request/response body with java objects.
