@@ -9,7 +9,7 @@ the code inside is commented please read it, im talking to you especifically, yo
 
 #### If you dont have any users spring security gives you a default user
 To login in the form default:
-user 
+user /
 generated security password
 
 ### Users: 
