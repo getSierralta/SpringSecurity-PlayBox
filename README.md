@@ -72,6 +72,7 @@ Authorization -> basic Auth -> put your credentials there
 * Depending on the configuration of the cookies, the browser might attach them to the request. It would be a simple Cross-Site Request Forgery attack by forcing the user to perform an unwanted action.
 * How to activate the cookies no postman? -> Capture requests and cookies (the bottom looks like an antena) request -> chenge from proxy to interceptor (you need to install a plugin no browser)
 * When you do a Get request you can go next to the body and see the cookies, you need to grab the cookie token and before you do a request you go to headers and you put: X-XSRF-TOKEN and in value you put the token.
+* If you dont see the token in the cookies section, make sure you have the plugin, you have the explorer on, and that in cookes you have a domain (can be just google.com) 
 
 
 ## Java errors
