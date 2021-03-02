@@ -2,7 +2,6 @@
 Code from this course https://www.youtube.com/watch?v=her_7pa0vrg
 the code inside is commented please read it, im talking to you especifically, you know who you are 
 
-# spring security
 
 ## Dependencies 
 * Spring Security 
@@ -65,9 +64,11 @@ Authorization -> basic Auth -> put your credentials there
 
 ## Glossary 
 
+* .antMatchers() = is kinda like a regex (?)
 * application.yml  = YAML is a convenient format for specifying hierarchical configuration data.
 * application.properties =  simple key-value storage for configuration properties. 
-* @Async = annotating a method of a bean with @Async will make it execute in a separate thread 
+* @Async = annotating a method of a bean with @Async will make it execute in a separate thread.
+* Authorization = Authorization is to check whether user can access the application or not or what user can access and what user can not access. 
 * @Autowired = By Default @Autowired will inject the bean byType. byName injection can be forced by using @Qualifier with @Autowired.
 
 
@@ -82,8 +83,10 @@ Authorization -> basic Auth -> put your credentials there
 * @Controller = @Controller is typically used in combination with a @RequestMapping annotation used on request handling methods.
 * csrf = Cross-site request forgery 
 
-* @DeleteMapping = shortcut for @RequestMapping(method =RequestMethod.DELETE)
+* @DeleteMapping = shortcut for @RequestMapping(method =RequestMethod.DELETE).
 
+* @EnableGlobalMethodSecurity(prePostEnabled = true) = EnableGlobalMethodSecurity provides AOP security on methods. Some of the annotations that it provides are PreAuthorize, PostAuthorize. It also has support for JSR-250. Without enabling the annotations mean nothing
+* @EnableWebSecurity = is a marker annotation. It allows Spring to find (it's a @Configuration and, therefore, @Component) and automatically apply the class to the global WebSecurity.
 * @Entity  =  An entity represents a table stored in a database. Every instance of an entity represents a row in the table.
 * @EqualsAndHashCode = Any class definition may be annotated with @EqualsAndHashCode to let lombok generate implementations of the equals(Object other) and hashCode() methods.
 
@@ -92,29 +95,38 @@ Authorization -> basic Auth -> put your credentials there
 * @Getter and @Setter = You can annotate any field with @Getter and/or @Setter, to let lombok generate the default getter/setter automatically.
 
 * HTTP = is used for communications over the internet
+* HttpSecurity = It allows configuring web based security for specific http requests. By default it will be applied to all requests, but can be restricted using requestMatcher(RequestMatcher) or other similar methods.
 
 * @Id = Specifies the primary key of an entity.
+* InMemoryUserDetailsManager = Non-persistent implementation of UserDetailsManager which is backed by an in-memory map.
 
 *  @JoinColumn() = marks a column for as a join column for an entity association or an element collection.
 *  JpaRepository<type, id> = JpaRepository is JPA specific extension of Repository. It contains the full API of CrudRepository and PagingAndSortingRepository. So it contains API for basic CRUD operations and also API for pagination and sorting.
 
 * UserRole = An Enum with the roles of your application
 * UserDetails = This interface has basic user methods like (.username(), .password(), .role()). You can also extend this class and add your own fields.
+* UserDetailsService = is an interface which is used to retrieve the user’s authentication and authorization information.
 
 * @NoArgsConstructor, @RequiredArgsConstructor, @AllArgsConstructor = Constructors made to order: Generates constructors that take no arguments, one argument per final / non-null field, or one argument for every field.
  
 *  @OneToOne() = Defines a single-valued association to another entity that has one-to-one multiplicity
 *  Optional<E> = Optional is a container type for a value which may be absent.
 
+* PasswordEncoder = is an interface with 3 methods encode, matches and upgradeEncoding.
 * @PatchMapping = shortcut for @RequestMapping(method = RequestMethod.PATCH)
+* @PathVariable = can be used to handle template variables in the request URI mapping,  and use them as method parameters.
+* @PostAuthorize = authorizes on the basis of role or the argument which is passed to the method.
 * @PostMapping = shortcut for @RequestMapping(method = RequestMethod.POST)
+* @PreAuthorize  = @PreAuthorize can check for authorization before entering into method. hasRole('Role_') hasAnyRole('Role_') hasAuthority('permission') hasAnyAuthority('permission').
 * @PutMapping = shortcut for @RequestMapping(method = RequestMethod.PUT)
 
 * @Repository = is used in classe with the mechanism for encapsulating storage, retrieval, and search behavior which emulates a collection of objects aka db
 * @RequestBody and @ResponseBody =  are used to convert the body of the HTTP request and response with java class objects. Both these annotations will use registered HTTP message converters in the process of converting/mapping HTTP request/response body with java objects.
 * @RestController = is a specialized version of the controller. It includes the @Controller and @ResponseBody annotations and as a result, simplifies the controller implementation
+* @RequestMapping("url") = The class-level annotation maps a specific request path or pattern onto a controller. You can then apply additional method-level annotations to make mappings more specific to handler methods.
 
 * @Service = is used with classes that provide some business functionalities. Spring context will autodetect these classes when annotation-based configuration and classpath scanning is used.
+* SimpleGrantedAuthority = is a basic concrete implementation of a GrantedAuthority must either represent itself as a String or be specifically supported by an AccessDecisionManager.
 
 * UserDetailsService = The UserDetailsService is a core interface in Spring Security framework, which is used to retrieve the user’s authentication and authorization information.
 
