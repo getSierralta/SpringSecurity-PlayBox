@@ -64,7 +64,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated() // Any request most be authenticated
                 .and()
-                .httpBasic(); // the mechanism that we want to enforce for authenticity of a client "basic auth" default is form
+                //.httpBasic(); // the mechanism that we want to enforce for authenticity of a client "basic auth" default is form
+                .formLogin() // form based auth
+                .loginPage("/login") //Custom login page
+                .permitAll() // if you don't put this spring security will block the login
+                .defaultSuccessUrl("/courses", true); // Redirect after success login
     }
 
     @Override
