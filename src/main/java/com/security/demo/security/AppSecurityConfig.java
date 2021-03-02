@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -18,6 +19,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 //Use @Configuration annotation on top of any class to declare that this class provides one or more @Bean methods and may be processed by the Spring container to generate bean definitions and service requests for those beans at runtime.
 @EnableWebSecurity
 //The @EnableWebSecurity is a marker annotation. It allows Spring to find (it's a @Configuration and, therefore, @Component) and automatically apply the class to the global WebSecurity.
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+//EnableGlobalMethodSecurity provides AOP security on methods. Some of the annotations that it provides are PreAuthorize, PostAuthorize. It also has support for JSR-250.
+//Without enabling the annotations mean nothing
 public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     //ctrl o on top of the extended class to see all the methods it has and also override then
 
@@ -46,10 +50,12 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Permission based Authentication
                 //Only those who have the Write permissions can DELETE, POST and PUT
                 //But anybody with the role ADMIN or ADMIN_TRAINEE can do a get request
-                .antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
-                .antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
-                .antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
-                .antMatchers(HttpMethod.GET,"/management/api/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ADMIN_TRAINEE.name())
+                //The order you define this matchers matter it checks the permissions line by line
+                //.antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
+                //.antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
+                //.antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
+                //.antMatchers(HttpMethod.GET,"/management/api/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ADMIN_TRAINEE.name())
+                //We replaced the antMatchers with @PreAuthorize methods
                 .anyRequest()
                 .authenticated() // Any request most be authenticated
                 .and()
