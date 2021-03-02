@@ -133,3 +133,6 @@ Authorization -> basic Auth -> put your credentials there
 * WebSecurityConfig = class with the web security configurations
 * WebSecurityConfigurerAdapter = The @EnableWebSecurity annotation and WebSecurityConfigurerAdapter work together to provide web based security.
 
+
+#### If everything fails throw the computer out the window roll yourself like a burrito and cry while listening to the phantom of the wapera
+
