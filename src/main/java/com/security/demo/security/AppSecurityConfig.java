@@ -14,6 +14,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.util.concurrent.TimeUnit;
 
 //notation to indicate is a security configuration
 @Configuration
@@ -47,28 +50,45 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 //HttpOnlyFalse it means that the cookie will be unable to clients
                 //.and()
                 .authorizeRequests() //Authorize request
-                .antMatchers("/", "index", "/css/*", "/js/*") // see readme for the rules of antmatchess
-                .permitAll() ////everything that's inside the antMatcher can be access by anybody without being logged in
-                .antMatchers("/api/**") //Everything that's inside this ant matcher
-                //Role base Authentication
-                .hasRole(UserRole.STUDENT.name()) //can be access by people with the role Student
-                //Permission based Authentication
-                //Only those who have the Write permissions can DELETE, POST and PUT
-                //But anybody with the role ADMIN or ADMIN_TRAINEE can do a get request
-                //The order you define this matchers matter it checks the permissions line by line
-                //.antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
-                //.antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
-                //.antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
-                //.antMatchers(HttpMethod.GET,"/management/api/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ADMIN_TRAINEE.name())
-                //We replaced the antMatchers with @PreAuthorize methods
-                .anyRequest()
-                .authenticated() // Any request most be authenticated
+                    .antMatchers("/", "index", "/css/*", "/js/*") // see readme for the rules of antmatchess
+                    .permitAll() ////everything that's inside the antMatcher can be access by anybody without being logged in
+                    .antMatchers("/api/**") //Everything that's inside this ant matcher
+                    //Role base Authentication
+                    .hasRole(UserRole.STUDENT.name()) //can be access by people with the role Student
+                    //Permission based Authentication
+                    //Only those who have the Write permissions can DELETE, POST and PUT
+                    //But anybody with the role ADMIN or ADMIN_TRAINEE can do a get request
+                    //The order you define this matchers matter it checks the permissions line by line
+                    //.antMatchers(HttpMethod.DELETE, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
+                    //.antMatchers(HttpMethod.POST, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
+                    //.antMatchers(HttpMethod.PUT, "/management/api/**").hasAuthority(UserPermission.COURSE_WRITE.getPermission())
+                    //.antMatchers(HttpMethod.GET,"/management/api/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ADMIN_TRAINEE.name())
+                    //We replaced the antMatchers with @PreAuthorize methods
+                    .anyRequest()
+                    .authenticated() // Any request most be authenticated
                 .and()
-                //.httpBasic(); // the mechanism that we want to enforce for authenticity of a client "basic auth" default is form
-                .formLogin() // form based auth
-                .loginPage("/login") //Custom login page
-                .permitAll() // if you don't put this spring security will block the login
-                .defaultSuccessUrl("/courses", true); // Redirect after success login
+                    //.httpBasic(); // the mechanism that we want to enforce for authenticity of a client "basic auth" default is form
+                    .formLogin() // form based auth
+                        .loginPage("/login") //Custom login page
+                        .permitAll() // if you don't put this spring security will block the login
+                        .defaultSuccessUrl("/courses", true) // Redirect after success login
+                        //.passwordParameter("password") //if you want to change the name of the inputs in the form for some reason here's where
+                        //.usernameParameter("username") //if you want to change the name of the inputs in the form for some reason here's where
+                .and() //By default the session id expires after 30 minutes of inactivity
+                    .rememberMe() //thi sets the default to 2 weeks
+                        .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))//we change the default to 21 days
+                        .key("somethingverysecured")
+                        //.rememberMeParameter("remember-me") //if you want to change the name of the inputs in the form for some reason here's where
+                .and()
+                    .logout()
+                        .logoutUrl("/logout") //Override the default log out
+                        //If we have the csfr enable logout MOST be a post request, if we don't it can be any type of request
+                        //Its best practice for the logout to always have a request type to protect from csfr attacks
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
+                        .clearAuthentication(true)
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID", "remember-me") //The name of the response cookies
+                        .logoutSuccessUrl("/login"); // Redirect after success logout
     }
 
     @Override
