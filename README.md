@@ -22,6 +22,16 @@ generated security password
 basic auth with basic auth you need to specify the username and password inside of the request header as B64 good for external API
 basic auth cant logout because the user and password is sent in everysingle request 
 
+#### Authentication (Acces Control)
+
+* Roles conceptually represent a named collection of permissions.
+* A Permission will be a fine-grained unit of access (“Edit resource X“, “Access the dashboard page“, etc.). A Role will be a collection of 1+ Permissions. 
+* A User can have 1+ Roles. All these relationships (Users, Roles, Permissions) are all stored in a database and can be changed on the fly and as needed.
+* At the moment of checking, the calling code only needs to know "does user X have permission to perform action Y?".
+* The calling code does not care about and should not be aware of relationships between roles and permissions.
+* The authorization layer will then check if the user has this permission, typically by checking if the user's role has this permission. This allows you to change authorization logic without updating the calling code.
+* If you directly check for role at the call site, you are implicitly forming role ⇄ permission relationships and injecting authorization logic into the calling code, violating separation of concerns.
+
 ### Ant matches 
 The mapping matches URLs using the following rules:
 
