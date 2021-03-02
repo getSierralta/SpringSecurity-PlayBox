@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 //notation to indicate is a security configuration
 @Configuration
@@ -40,7 +41,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         // visit this page for examples of stuff you can use the http for -> https://www.codota.com/code/java/classes/org.springframework.security.config.annotation.web.builders.HttpSecurity
         // if you type http. you can see tons of stuff you can use to configure your security
         http
-                .csrf().disable()// Spring boot security module enables CSRF by default.
+                .csrf().disable() // Spring boot security module enables CSRF by default.
+                //.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                //We set the token repository {you need a csrf token to be able to do request other than get}
+                //HttpOnlyFalse it means that the cookie will be unable to clients
+                //.and()
                 .authorizeRequests() //Authorize request
                 .antMatchers("/", "index", "/css/*", "/js/*") // see readme for the rules of antmatchess
                 .permitAll() ////everything that's inside the antMatcher can be access by anybody without being logged in
