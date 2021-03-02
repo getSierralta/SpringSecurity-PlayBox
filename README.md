@@ -22,7 +22,7 @@ generated security password
 basic auth with basic auth you need to specify the username and password inside of the request header as B64 good for external API
 basic auth cant logout because the user and password is sent in everysingle request 
 
-#### Authentication (Acces Control)
+### Authentication (Access Control)
 
 * Roles conceptually represent a named collection of permissions.
 * A Permission will be a fine-grained unit of access (“Edit resource X“, “Access the dashboard page“, etc.). A Role will be a collection of 1+ Permissions. 
