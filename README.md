@@ -80,6 +80,7 @@ The mapping matches URLs using the following rules:
 * error java db time zone - Whenever you have the link to your database you can put this link jdbc:mysql://localhost:3306/{nameOfTheSchema}?useTimezone=true&serverTimezone=UTC
 * java.lang.IllegalArgumentException: there is no PasswordEncoder mapped for the id "null" Users required to have the password encoded, there's something wrong with your encoder or you didnt implement it 
 * Error Encoded password does not look like Bcrypt // you need to inject the PasswordEncoder into your application security configuration
+* java.lang.IllegalStateException: UserDetailsService is required. HTTP Status 500 – Internal Server Error if you have the UserDetailService then clean your cookies, if it doesnt work then you have implemented it wrong.
 
 ## Java errors WhiteLabel
 
