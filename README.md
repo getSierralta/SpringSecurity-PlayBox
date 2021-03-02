@@ -42,7 +42,7 @@ The mapping matches URLs using the following rules:
 ## Java errors WhiteLabel
 
 * whitelabel (type= not found, status=404) is always about the controllers, if this error occur is because you have nothing assignated to were you are trying to go and if you do you probably have a spelling error somewhere
-* whitelabel (type=Unauthorized, status=401) you didnt login nor do you can access this page withput login in 
+* whitelabel (type=Unauthorized, status=401) you didnt login nor do you can access this page without login in 
 
 ## Postman errors 
 
