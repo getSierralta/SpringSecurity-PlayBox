@@ -7,20 +7,41 @@ the code inside is commented please read it, im talking to you especifically, yo
 * Spring Security 
 * Guava 
 
-#### If you dont have any users spring security gives you a default user
-To login in the form default:
-user /
-generated security password
 
-### Users: 
+
+## Users: 
 * username most be unique 
 * Passwords most be encoded
 * they should have Roles 
 * with the roles you can define the endpoints of your users using authorities
 * higly recommended to use authorities
 
-basic auth with basic auth you need to specify the username and password inside of the request header as B64 good for external API
-basic auth cant logout because the user and password is sent in everysingle request 
+## Auth:
+
+#### Basic auth
+* or HTTP authentication is an authentication method built into browsers. The browser presents a dialog where the user has to provide an ID and password before the page loads.
+* Basic auth uses the Authorisation to authenticate. The provided ID and password are encoded with base64. The credentials are not encrypted unless the request is sent over HTTPS.
+* basic auth with basic auth you need to specify the username and password inside of the request header as B64 good for external API
+* basic auth cant logout because the user and password is sent in everysingle request 
+* Basic auth is very limited. It's only possible to provide an ID and password.
+* The dialog is opened before the page loads, and there is no way to customise the dialog.
+* Each browser determines how long the user is logged in for, and it's not possible to log out users.
+* It can be useful to use for internal applications such as a staging site.
+
+#### Form-based auth
+* Form-based authentication is not formalized by any RFC. In essence, it is a programmatic method of authentication that developers create to mitigate the downside of basic auth. Most implementations of form-based authentication share the following characteristics:
+* They don’t use the formal HTTP authentication techniques (basic or digest).
+* They use the standard HTML form fields to pass the username and password values to the server.
+* The server validates the credentials and then creates a “session” that is tied to a unique key that is passed between the client and server on each http put and get request.
+* When the user clicks “log off” or the server logs the user off (for example after certain idle time), the server will invalidate the session key, which makes any subsequent communication between the client and server require re-validation (resubmission of login credentials via the form) in order to establish a new session key.
+* As with basic auth, form-based auth does not protect login credentials when connected over HTTP, therefore it is not more “secure” than basic auth in how it handles user credentials. It is however more secure when it comes to properly logging the user off after a certain period of inactivity or if the user no longer requires use of the system and decides to log out.
+
+### If you dont have any users spring security gives you a default user
+To login in the form default:
+user /
+generated security password
+
+
 
 ### Authentication (Access Control)
 
