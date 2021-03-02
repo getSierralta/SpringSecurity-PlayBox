@@ -42,7 +42,7 @@ The mapping matches URLs using the following rules:
 ## Java errors WhiteLabel
 
 * whitelabel (type= not found, status=404) is always about the controllers, if this error occur is because you have nothing assignated to were you are trying to go and if you do you probably have a spelling error somewhere
-* whitelabel (type=Unauthorized, status=401) you didnt login nor do you can access this page without login in 
+* whitelabel (type=Unauthorized, status=401) you didnt login nor you can access this page without login in 
 
 ## Postman errors 
 
@@ -54,7 +54,11 @@ Authorization -> basic Auth -> put your credentials there
 * postman error 403 Forbidden. this means you are trying to access a url but the user you have logged with doesnt have the permission to access it 
 * postman error 403 Forbidden. Or spring is protecting your app from CSRF. In your Application Security Configuration after http put .csrf().disable() 
 /*CSRF- Cross-Site Request Forgery attack is an attack that forces the end user to make an unwanted calls to the web application servers where the end user is already authenticated.*/
+#### When to use CSRF protection? 
+for any request that could be processed by a browser by normal users. If you are only creating a service that is used by non-browser clients, you will likely want to disable CSRF protection.
 * postman error 405 Method Not Allowed. check the url and the request type, you are probably using a type that doesnt match and url like DELETE without id 
+
+
 
 ## Java errors
 
