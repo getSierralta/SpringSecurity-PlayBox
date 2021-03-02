@@ -120,7 +120,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .build();
         //InMemoryUserDetailsManager Non-persistent implementation of UserDetailsManager which is backed by an in-memory map.
         //Mainly intended for testing and demonstration purposes, where a full blown persistent system isn't required.
-        return new InMemoryUserDetailsManager(
-                student, admin, adminTrainee);
+        return new InMemoryUserDetailsManager(student, admin, adminTrainee);
     }
 }
