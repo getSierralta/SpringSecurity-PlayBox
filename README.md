@@ -64,6 +64,7 @@ Authorization -> basic Auth -> put your credentials there
 * postman error 403 Forbidden. this means you are trying to access a url but the user you have logged with doesnt have the permission to access it 
 * postman error 403 Forbidden. Or spring is protecting your app from CSRF. In your Application Security Configuration after http put .csrf().disable() 
 * postman error 405 Method Not Allowed. check the url and the request type, you are probably using a type that doesnt match and url like DELETE without id 
+* postman error 415 Unsupported Media Type. Check the type of media that you are sending, you may be have as default text for example when you are trying to sent a json 
 
 ## CSRF 
 * https://wanago.io/2020/12/21/csrf-attacks-same-site-cookies/ links 
@@ -74,6 +75,8 @@ Authorization -> basic Auth -> put your credentials there
 * When you do a Get request you can go next to the body and see the cookies, you need to grab the cookie token and before you do a request you go to headers and you put: X-XSRF-TOKEN and in value you put the token.
 * If you dont see the token in the cookies section, make sure you have the plugin, you have the explorer on, and that in cookes you have a domain (can be just google.com) 
 * https://learning.postman.com/docs/sending-requests/capturing-request-data/interceptor/
+* And when that doesnt work give up in life and enable the protection 
+* Ok dont give up yet .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()) finally let me got those tokens baby
 
 
 ## Java errors
