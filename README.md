@@ -133,11 +133,14 @@ In its compact form, JSON Web Tokens consist of three parts separated by dots (.
 * The signature is used to verify the message wasn't changed along the way, and, in the case of tokens signed with a private key, it can also verify that the sender of the JWT is who it says it is.
 * To create the signature part you have to take the encoded header, the encoded payload, a secret, the algorithm specified in the header, and sign that.
 * For example if you want to use the HMAC SHA256 algorithm, the signature will be created in the following way:
-
-HMACSHA256(
+* HMACSHA256(
   base64UrlEncode(header) + "." +
   base64UrlEncode(payload),
   secret)
+* https://jwt.io/
+
+#### Library 
+* https://github.com/jwtk/jjwt
 
 ## Glossary 
 
@@ -169,6 +172,8 @@ HMACSHA256(
 * @Entity  =  An entity represents a table stored in a database. Every instance of an entity represents a row in the table.
 * @EqualsAndHashCode = Any class definition may be annotated with @EqualsAndHashCode to let lombok generate implementations of the equals(Object other) and hashCode() methods.
 
+* Filtering Requests and Responses = A filter is an object that can transform the header and content (or both) of a request or response. Filters differ from web components in that filters usually do not themselves create a response. Instead, a filter provides functionality that can be “attached” to any kind of web resource. Consequently, a filter should not have any dependencies on a web resource for which it is acting as a filter; this way, it can be composed with more than one type of web resource.
+
 * @GeneratedValue = is to configure the way of increment of the specified column(field).
 * @GetMapping = shortcut for @RequestMapping(method = RequestMethod.GET)
 * @Getter and @Setter = You can annotate any field with @Getter and/or @Setter, to let lombok generate the default getter/setter automatically.
@@ -179,6 +184,7 @@ HMACSHA256(
 * @Id = Specifies the primary key of an entity.
 * InMemoryUserDetailsManager = Non-persistent implementation of UserDetailsManager which is backed by an in-memory map.
 
+* Jackson = is a simple java based library to serialize java objects to JSON and vice versa.
 *  @JoinColumn() = marks a column for as a join column for an entity association or an element collection.
 *  JpaRepository<type, id> = JpaRepository is JPA specific extension of Repository. It contains the full API of CrudRepository and PagingAndSortingRepository. So it contains API for basic CRUD operations and also API for pagination and sorting.
 
@@ -208,6 +214,7 @@ HMACSHA256(
 
 * @Service = is used with classes that provide some business functionalities. Spring context will autodetect these classes when annotation-based configuration and classpath scanning is used.
 * SimpleGrantedAuthority = is a basic concrete implementation of a GrantedAuthority must either represent itself as a String or be specifically supported by an AccessDecisionManager.
+* Stateless protocols = are the type of network protocols where clients send requests to the server. The server will then respond back in accordance with the current state. There’s no requirement for the server to preserve session information or status concerning each communicating partner for multiple requests. HTTP (Hypertext Transfer Protocol), UDP (User Datagram Protocol), and DNS (Domain Name System) are all examples of a stateless protocol.
 
 * UserDetailsService = The UserDetailsService is a core interface in Spring Security framework, which is used to retrieve the user’s authentication and authorization information.
 
