@@ -1,6 +1,9 @@
 package com.security.demo.security;
 
 import com.security.demo.auth.ApplicationUserService;
+import com.security.demo.jwt.JwtConfig;
+import com.security.demo.jwt.JwtTokenVerifier;
+import com.security.demo.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,10 +13,10 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import java.util.concurrent.TimeUnit;
+import javax.crypto.SecretKey;
 
 //notation to indicate is a security configuration
 @Configuration
@@ -28,12 +31,16 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
+    private final SecretKey secretKey;
+    private final JwtConfig jwtConfig;
 
     @Autowired
-    public AppSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
+    public AppSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService, SecretKey secretKey, JwtConfig jwtConfig) {
         //The passwordEncoder requires a constructor
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
+        this.secretKey = secretKey;
+        this.jwtConfig = jwtConfig;
     }
 
 
@@ -48,6 +55,10 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 //We set the token repository {you need a csrf token to be able to do request other than get}
                 //HttpOnlyFalse it means that the cookie will be unable to clients
                 //.and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
+                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests() //Authorize request
                     .antMatchers("/", "index", "/css/*", "/js/*") // see readme for the rules of antmatchess
                     .permitAll() ////everything that's inside the antMatcher can be access by anybody without being logged in
@@ -64,13 +75,13 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                     //.antMatchers(HttpMethod.GET,"/management/api/**").hasAnyRole(UserRole.ADMIN.name(), UserRole.ADMIN_TRAINEE.name())
                     //We replaced the antMatchers with @PreAuthorize methods
                     .anyRequest()
-                    .authenticated() // Any request most be authenticated
-                .and()
-                    //.httpBasic(); // the mechanism that we want to enforce for authenticity of a client "basic auth" default is form
-                    .formLogin() // form based auth
-                        .loginPage("/login") //Custom login page
-                        .permitAll() // if you don't put this spring security will block the login
-                        .defaultSuccessUrl("/courses", true) // Redirect after success login
+                    .authenticated(); // Any request most be authenticated
+                /*.and()
+                 //   .httpBasic() // the mechanism that we want to enforce for authenticity of a client "basic auth" default is form
+                //    .formLogin() // form based auth
+                //        .loginPage("/login") //Custom login page
+                //        .permitAll() // if you don't put this spring security will block the login
+                //        .defaultSuccessUrl("/courses", true) // Redirect after success login
                         //.passwordParameter("password") //if you want to change the name of the inputs in the form for some reason here's where
                         //.usernameParameter("username") //if you want to change the name of the inputs in the form for some reason here's where
                 .and() //By default the session id expires after 30 minutes of inactivity
@@ -88,6 +99,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID", "remember-me") //The name of the response cookies
                         .logoutSuccessUrl("/login"); // Redirect after success logout
+                */
     }
 
     @Override
