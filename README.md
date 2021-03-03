@@ -139,6 +139,9 @@ In its compact form, JSON Web Tokens consist of three parts separated by dots (.
   secret)
 * https://jwt.io/
 
+#### Library 
+* https://github.com/jwtk/jjwt
+
 ## Glossary 
 
 * .antMatchers() = is kinda like a regex (?)
